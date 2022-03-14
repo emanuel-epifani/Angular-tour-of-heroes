@@ -9,10 +9,28 @@
     che mi arrivano, ma non so cosa c'è dentro -->
 <h2>My Heroes</h2>
 <ul class="heroes">
-    <li *ngFor="let hero of heroes">
-    <span class="badge">{{hero.id}}</span> {{hero.name}}
+    <li *ngFor="let hero of heroes">  <!--qst riga x far vedere la direttiva *ngFOr  -->
+
+        <button type="button" (click)="onSelect(hero)">  <!--qst riga x far vedere l'evento (), qui hero vale il valore estratto dal ciclo sopra -->
+            <span class="badge">{{hero.id}}</span> 
+            <span class="name">{{hero.name}}</span>
+        </button>
     </li>
 </ul>
+
+
+
+<div *ngIf="selectedHero">
+
+    <h2>{{selectedHero.name | uppercase}} Details</h2>
+    <div>id: {{selectedHero.id}}</div>
+    <div>
+        <label for="hero-name">Hero name: </label>
+        <input id="hero-name" [(ngModel)]="selectedHero.name" placeholder="name">
+    </div>
+</div>
+
+
 
 <!-- 
 <div *ngFor="let x of values">

@@ -1,5 +1,5 @@
 /* ciò che entro "MOCK" significa che mi sto salvando i dati */
-export const HEROES = [
+export const HEROESMOCKDATA = [
     { id: 11, name: 'Dr Nice' },
     { id: 12, name: 'Narco' },
     { id: 13, name: 'Bombasto' },
