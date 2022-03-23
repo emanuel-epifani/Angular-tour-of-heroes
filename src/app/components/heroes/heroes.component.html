@@ -9,9 +9,9 @@
     che mi arrivano, ma non so cosa c'è dentro -->
 <h2>My Heroes</h2>
 <ul class="heroes">
-    <li *ngFor="let hero of heroes">  <!--qst riga x far vedere la direttiva *ngFOr  -->
+    <li *ngFor="let hero of heroes" >  <!--qst riga x far vedere la direttiva *ngFOr  -->
 
-        <button type="button" (click)="onSelect(hero)">  <!--qst riga x far vedere l'evento (), qui hero vale il valore estratto dal ciclo sopra -->
+        <button type="button" (click)="onSelect(hero)" [class.selected]="hero === selectedHero">  <!--qst riga x far vedere l'evento (), qui hero vale il valore estratto dal ciclo sopra -->
             <span class="badge">{{hero.id}}</span> 
             <span class="name">{{hero.name}}</span>
         </button>
