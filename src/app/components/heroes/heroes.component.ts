@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 //import { HEROESMOCKDATA } from 'src/app/mock-data/mock-heroes';
 import { Hero } from 'src/app/models/hero';
 import { HeroService } from 'src/app/services/hero.service';
+import { MessageService } from 'src/app/services/message.service';
 
 @Component({
   selector: 'app-heroes',
@@ -14,7 +15,10 @@ export class HeroesComponent implements OnInit {
   selectedHero?: Hero  //il ? dopo il nome della variabile mi dice che qll variabile può essere nullabile;
 
 
-  constructor(private heroService: HeroService) { } 
+  constructor(
+    private heroService: HeroService,
+    private messageService: MessageService
+    ) { } 
   
 
   ngOnInit(): void { //un metodo che viene fatto appena istanziato il component
@@ -23,8 +27,7 @@ export class HeroesComponent implements OnInit {
 
   onSelect(pippo: Hero){
     this.selectedHero = pippo; //pippo mi arriverà dal frontend dal ciclo col *ngFor
-    //me lo immagazzino dentro this.selectedHero per poter avere una variabile che
-    //sia valida (e quindi utilizzabile) fuori dall scope della funzione
+    this.messageService.add('HeroesComponent: Selected hero id=' + pippo.id );
   }
 
   getHeroes() : void {
