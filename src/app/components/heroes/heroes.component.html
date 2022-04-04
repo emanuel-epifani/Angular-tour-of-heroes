@@ -11,20 +11,19 @@
 <ul class="heroes">
     <li *ngFor="let hero of heroes" >  <!--qst riga x far vedere la direttiva *ngFOr  -->
 
-        <button type="button" (click)="onSelect(hero)" [class.selected]="hero === selectedHero">  <!--qst riga x far vedere l'evento (), qui hero vale il valore estratto dal ciclo sopra -->
+   <!-- <button type="button" (click)="onSelect(hero)" [class.selected]="hero === selectedHero">
             <span class="badge">{{hero.id}}</span> 
             <span class="name">{{hero.name}}</span>
-        </button>
+        </button> -->
+
+        <a routerLink="/detail/{{hero.id}}">
+            <span class="badge">{{hero.id}}</span> {{hero.name}}
+        </a>
     </li>
 </ul>
 
 
-
+<!-- 
 <app-hero-detail [hero]="selectedHero" ></app-hero-detail>
 
-
-<!-- 
-<div *ngFor="let x of values">
-    <h1>value {{x}}</h1>
-</div> 
--->
+ -->

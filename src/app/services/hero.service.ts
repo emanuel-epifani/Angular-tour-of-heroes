@@ -20,4 +20,13 @@ export class HeroService {
     this.messageService.add("Heroservice: fetched heroes");
     return HEROES;
   }
+
+  getHero(selectedId: number): Observable<Hero> {
+    // For now, assume that a hero with the specified `id` always exists.
+    // Error handling will be added in the next step of the tutorial.
+    const hero = HEROESMOCKDATA.find( h => h.id === selectedId)!;
+    this.messageService.add(`HeroService: fetched hero id=${selectedId}`);
+    return of(hero);
+  }
+
 }
