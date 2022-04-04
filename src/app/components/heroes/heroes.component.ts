@@ -21,7 +21,8 @@ export class HeroesComponent implements OnInit {
     ) { } 
   
 
-  ngOnInit(): void { //un metodo che viene fatto appena istanziato il component
+  ngOnInit(): void { 
+    console.log("HeroesComponent ngOnInit()");//x capire quando messo/inizializzato componente nella view
     this.getHeroes(); //mi riempe l'array heroes
   }
 
@@ -35,6 +36,10 @@ export class HeroesComponent implements OnInit {
     this.heroService.getHeroes().subscribe(data => {
       this.heroes = data
     });
+  }
+
+  ngOnDestroy(): void {
+    console.log("HeroesComponent ngOnDestroy()");//x capire quando tolto componente dalla view
   }
 
 }

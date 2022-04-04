@@ -15,10 +15,17 @@ export class DashboardComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    console.log("DashboardComponent ngOnInit()");//x capire quando messo/inizializzato componente nella view
+    this.getHeroes();
   }
 
-  getHeroe():void {
-    this.heroService.getHeroes().subscribe(data => {this.heroes = data});
+  getHeroes():void {
+    this.heroService.getHeroes().subscribe(data => {this.heroes = data.slice(1,5)});
   }
+
+  ngOnDestroy(): void {
+    console.log("DashboardComponent ngOnDestroy()");//x capire quando tolto componente dalla view
+  }
+
 
 }
