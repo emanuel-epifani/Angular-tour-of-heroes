@@ -20,7 +20,7 @@ export class HeroService {
     private http: HttpClient
   ) { }
 
-  //funzione che poi potrò richiamare dal controller 
+   /** GET:get an array of heroes by the server */
   getHeroes(): Observable<Hero[]> { //
     return  this.http.get<Hero[]>(this.heroesUrl)
       .pipe(
@@ -33,10 +33,9 @@ export class HeroService {
           return of([]);
         })
       );
-
   }
 
-
+  /** GET: get a specific heroe by the server (passandogli l'id)*/
   getHero(selectedId: number): Observable<Hero> {
     return this.http.get<Hero>(this.heroesUrl +'/'+ selectedId)
     .pipe(
@@ -51,23 +50,70 @@ export class HeroService {
     )
   }
 
+  /** PUT: update the hero on the server */
+  updateHero(hero: Hero): Observable<any> {
+    return this.http.put(this.heroesUrl, hero, this.httpOptions).pipe(
+      tap(_ => this.log(`updated hero id=${hero.id}`)),
+      catchError(error => {
+          console.error(error);
 
-/** PUT: update the hero on the server */
-updateHero(hero: Hero): Observable<any> {
-  return this.http.put(this.heroesUrl, hero, this.httpOptions).pipe(
-    tap(_ => this.log(`updated hero id=${hero.id}`)),
-    catchError(error => {
-        console.error(error);
+          this.log(`updateHero failed:${error.status}:  ${error.body.error}`);
 
-        this.log(`updateHero failed:${error.status}:  ${error.body.error}`);
+          return of();
+      })
+    );
+  }
+
+  /** POST: add a new hero to the server */
+  addHero(hero: Hero): Observable<Hero> {
+    return this.http.post<Hero>(this.heroesUrl, hero, this.httpOptions).pipe(
+      tap((newHero: Hero) => this.log(`added hero w/ id=${newHero.id}`)),
+      catchError(error => {
+        console.error(error)
+
+        this.log(`addHero failed:${error.status}:  ${error.body.error}`);
 
         return of();
-    })
-    
-
-  );
-}
+      })
+    );
+  }
  
+  /** DELETE: delete the hero from the server */
+  deleteHero(id: number): Observable<Hero> {
+    const url = `${this.heroesUrl}/${id}`;
+
+    return this.http.delete<Hero>(url, this.httpOptions).pipe(
+      tap(_ => this.log(`deleted hero id=${id}`)),
+      catchError(error => {
+        console.error(error)
+
+        this.log(`addHero failed:${error.status}:  ${error.body.error}`);
+
+        return of();
+      })
+    );
+  }
+
+  /* GET heroes whose name contains search term */
+  searchHeroes(term: string): Observable<Hero[]> {
+    if (!term.trim()) {
+      // if not search term, return empty hero array.
+      return of([]);
+    }
+    return this.http.get<Hero[]>(`${this.heroesUrl}/?name=${term}`).pipe(
+      tap(x => x.length ?
+        this.log(`found heroes matching "${term}"`) :
+        this.log(`no heroes matching "${term}"`)),
+      catchError(error => {
+        console.error(error)
+
+        this.log(`addHero failed:${error.status}:  ${error.body.error}`);
+
+        return of();
+      })
+    );
+  }
+
 
 
   /** Log a HeroService message with the MessageService */
@@ -75,7 +121,4 @@ updateHero(hero: Hero): Observable<any> {
     this.messageService.add(`HeroService: ${message}`);
   }
 
-
-
-  
 }

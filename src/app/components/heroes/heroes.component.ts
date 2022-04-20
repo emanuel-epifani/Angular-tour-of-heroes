@@ -25,12 +25,7 @@ export class HeroesComponent implements OnInit {
     console.log("HeroesComponent ngOnInit()");//x capire quando messo/inizializzato componente nella view
     this.getHeroes(); //mi riempe l'array heroes
   }
-/* 
-  onSelect(pippo: Hero){
-    this.selectedHero = pippo; //pippo mi arriverà dal frontend dal ciclo col *ngFor
-    this.messageService.add('HeroesComponent: Selected hero id=' + pippo.id );
-  }
-   */
+
 
   getHeroes() : void {
     //this.heroes = this.heroService.getHeroes();        //this.heroes -> si rifà alla mia variabile //this.heroService -> si rifà a cio che ho passato nel costruttore 
@@ -38,6 +33,22 @@ export class HeroesComponent implements OnInit {
       this.heroes = data
     });
   }
+
+  add(name: string): void {
+    name = name.trim();
+    if (!name) { return; }
+    this.heroService.addHero({ name } as Hero)
+      .subscribe(hero => {
+        this.heroes.push(hero);
+      });
+  }
+
+  delete(hero: Hero): void {
+    this.heroService.deleteHero(hero.id).subscribe(()=> { //lo elimino dal db, se cancellazione effetutata con successo
+      this.heroes = this.heroes.filter(h => h !== hero); //..lo elimino anche dalla lista mia "heroes"
+    }); 
+  }
+
 
   ngOnDestroy(): void {
     console.log("HeroesComponent ngOnDestroy()");//x capire quando tolto componente dalla view
